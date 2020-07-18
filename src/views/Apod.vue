@@ -11,7 +11,7 @@
 
 
 export default {
-  name: 'Home',
+  name: 'Apod',
   components: {
 
   }

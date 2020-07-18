@@ -26,6 +26,8 @@
 
       <v-spacer></v-spacer>
 
+      <v-btn text to="/apod">Apod</v-btn>
+      <v-btn text to="/rover">Rover</v-btn>
       <v-btn target="_blank" text @click="logout">
         <span class="mr-2">{{currentUser ? 'Cerrar Sesión' : 'Iniciar Sesión'}}</span>
         <v-icon>mdi-open-in-new</v-icon>
