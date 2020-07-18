@@ -30,6 +30,7 @@
 
 <script>
 import Firebase from 'firebase';
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -39,9 +40,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setCurrentUser']),
     login(){
       Firebase.auth().signInWithEmailAndPassword(this.user, this.password)
-      .then(() =>{
+      .then((response) =>{
+         this.setCurrentUser(response.user.email)
          this.$router.push('/apod')
            alert(`bienvenido ${this.user}`)
        }).catch((error)=>{

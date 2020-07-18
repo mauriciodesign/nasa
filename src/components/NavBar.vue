@@ -26,23 +26,33 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
+      <v-btn target="_blank" text @click="logout">
+        <span class="mr-2">{{currentUser ? 'Cerrar Sesión' : 'Iniciar Sesión'}}</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
 </template>
 
 <script>
-export default {
+import Firebase from 'firebase';
+import { mapState, mapActions } from 'vuex'
+  export default {
+    name: 'NavBar',
+    computed: {
+        ...mapState(['currentUser'])
+    },
+    methods: {
+        ...mapActions(['setCurrentUser']),
+      logout(){
+        Firebase.auth().signOut().then(() =>{
+          this.setCurrentUser(null)
+          this.$router.push('/login')
+        })
+      }
+    },
 
-}
+  }
 </script>
 
 <style>
-
 </style>
