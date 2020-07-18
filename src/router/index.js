@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Apod from '../views/Apod.vue'
+import Firebase from 'firebase'
 
 Vue.use(VueRouter)
 
@@ -34,4 +35,13 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  let user = Firebase.auth().currentUser;
+  let authRequired = to.matched.some(route => route.meta.login);
+  if (!user && authRequired) {
+    next('/login')
+  } else {
+    next();
+  }
+})
 export default router
