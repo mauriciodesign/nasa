@@ -9,12 +9,19 @@ const routes = [
   {
     path: '/apod',
     name: 'apod',
-    component: Apod
+    component: Apod,
+    alias:['/home','/'],
+    meta: {
+        login: true
+    }
   },
   {
     path: '/rover',
     name: 'rover',
-    component: () => import(/* webpackChunkName: "rover" */ '../views/Rover.vue')
+    component: () => import(/* webpackChunkName: "rover" */ '../views/Rover.vue'),
+    meta: {
+        login: true
+    }
   },
   {
     path: '/login',
