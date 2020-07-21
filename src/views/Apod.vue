@@ -2,11 +2,8 @@
     <v-container class="home my-10">
         <v-row justify="center">
             <div class="mx-10">
-                <v-date-picker v-model="date" elevation="15" class="rounded-lg" height="auto">
-                    <v-btn block color="#1976D2" dark @click="getDate(date)">Send</v-btn>
-                </v-date-picker>
+                <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" elevation="15" class="rounded-lg" height="auto"></v-date-picker>
             </div>
-
             <v-col class="mx-10">
                 <h1>{{apods.title}}</h1>
                 <p>{{date}}</p>
@@ -35,6 +32,8 @@ export default {
       data () {
       return {
         date: new Date().toISOString().substr(0, 10),
+        minDate: "2019-07-04",
+        maxDate: "2020-07-12"
       }
     },
   components: {},
