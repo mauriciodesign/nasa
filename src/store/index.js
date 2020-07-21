@@ -4,6 +4,13 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+function setInStorage(key, obj) {
+  localStorage.setItem(key, JSON.stringify(obj))
+}
+function getFromStorage(key) {
+  return JSON.parse(localStorage.getItem(key))
+}
+
 const apiKey = 'RnuWmkUgVsu5BvZixeZBH8xjqAdjhQezfA1kZYRg'
 const apodUrl = 'https://api.nasa.gov/planetary/apod?'
 const roverUrl = 'https://api.nasa.gov/mars-photos/api/v1/rovers/'
@@ -12,23 +19,27 @@ const roverlatestUrl = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity
 export default new Vuex.Store({
   state: {
     apods: [],
-    rovers:[],
-    currentUser: null,
-    search:{
+    rovers: [],
+    currentUser: getFromStorage('user') || undefined,
+    search: {
       dateSol: '',
-      selectRover:''
+      selectRover: ''
     }
   },
   mutations: {
     SET_CURRENT_USER(state, email) {
       state.currentUser = email
     },
+    UPDATE_USER(state, user) {
+      state.currentUser = user
+      setInStorage('user', user)
+    },
     GET_APOD(state, apods) { state.apods = apods },
     SET_PIKER(state, apods) { state.apods = apods },
-    GET_ROVER(state, rovers){ state.rovers = rovers},
-    GET_ROVER_LATEST(state, rovers){ state.rovers = rovers},
-    SEND_SOL(state, sol) { state.search.dateSol = sol},
-    SEND_SELECT(state, select) { state.search.selectRover = select}
+    GET_ROVER(state, rovers) { state.rovers = rovers },
+    GET_ROVER_LATEST(state, rovers) { state.rovers = rovers },
+    SEND_SOL(state, sol) { state.search.dateSol = sol },
+    SEND_SELECT(state, select) { state.search.selectRover = select }
   },
   actions: {
     getApod({ commit }) {
@@ -37,36 +48,44 @@ export default new Vuex.Store({
           commit('GET_APOD', response.data)
         })
     },
+    updateUser({ commit }, user) {
+      return new Promise((resolve, reject) => {
+        try {
+          commit('UPDATE_USER', user)
+          resolve(user)
+        } catch (e) { reject(e) }
+      })
+    },
     setCurrentUser({ commit }, email) {
       commit('SET_CURRENT_USER', email)
     },
-    setPiker({ commit }, date){
+    setPiker({ commit }, date) {
       axios.get(`${apodUrl}date=${date}&api_key=${apiKey}`)
-      .then(response => {
-        commit('SET_PIKER', response.data)
-      })
-      .catch(()=>{
-        alert('No hay contenido con esta fecha')
-      })
+        .then(response => {
+          commit('SET_PIKER', response.data)
+        })
+        .catch(() => {
+          alert('No hay contenido con esta fecha')
+        })
     },
-    sendSol({commit}, sol){
+    sendSol({ commit }, sol) {
       commit('SEND_SOL', sol)
     },
-    sendSelect({commit}, select){
+    sendSelect({ commit }, select) {
       commit('SEND_SELECT', select)
     },
-    getRover({ commit, state }){
+    getRover({ commit, state }) {
       axios.get(`${roverUrl}${state.search.selectRover}/photos?earth_date=${state.search.dateSol}&api_key=${apiKey}`)
-      .then(response => {
-        commit('GET_ROVER', response.data.photos)
-      })
+        .then(response => {
+          commit('GET_ROVER', response.data.photos)
+        })
     },
-    getRoverlatest({ commit }){
+    getRoverlatest({ commit }) {
       axios.get(`${roverlatestUrl}?&api_key=${apiKey}`)
-      .then(response => {
-        commit('GET_ROVER_LATEST', response.data.latest_photos)
-        console.log(response.data.latest_photos)
-      })
+        .then(response => {
+          commit('GET_ROVER_LATEST', response.data.latest_photos)
+          console.log(response.data.latest_photos)
+        })
     }
   },
   modules: {
