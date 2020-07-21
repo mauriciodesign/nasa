@@ -1,14 +1,16 @@
 <template>
     <v-container class="home my-10">
         <v-row justify="center">
-            <div class="mx-10">
-                <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" elevation="15" class="rounded-lg" height="auto"></v-date-picker>
+          <v-col cols="11" md="4" lg="3">
+            <div class="px-xl-15">
+                <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" elevation="15" class="rounded-lg picker" height="auto" width="100%"></v-date-picker>
             </div>
-            <v-col class="mx-10">
+            </v-col>
+            <v-col class="mx-0" cols="11" md="8" lg="9">
                 <h1>{{apods.title}}</h1>
                 <p>{{date}}</p>
                 <v-card class="rounded-lg" elevation="15" >
-                    <v-img v-if="apods.media_type === 'image'" :src="apods.url"></v-img>
+                    <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl"></v-img>
                     <iframe v-else width="100%" height="500" :src="apods.url"></iframe>
                     <v-card-text class="px-10 py-10">
                         <div div>{{apods.explanation}}</div>
@@ -52,3 +54,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+  .picker{
+    width: 100%;
+  }
+</style>

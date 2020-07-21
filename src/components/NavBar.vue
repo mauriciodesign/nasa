@@ -24,10 +24,9 @@
             <v-btn class="mx-2" text to="/rover">Rover</v-btn>
             <v-btn class="mx-2" target="_blank" text @click="logout">
                 <span class="mr-2">Logout</span>
-                <v-icon>mdi-logout </v-icon>
+                <v-icon>mdi-logout</v-icon>
             </v-btn>
         </div>
-        <div v-else></div>
     </v-app-bar>
 </template>
 
@@ -48,7 +47,6 @@ import { mapState, mapActions } from 'vuex'
         })
       }
     },
-
   }
 </script>
 

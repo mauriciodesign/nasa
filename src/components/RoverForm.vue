@@ -1,11 +1,11 @@
 <template>
     <v-container class="my-5">
         <v-row justify="center">
-            <v-col cols="12" sm="6" md="2">
+            <v-col cols="12" sm="5" md="3" lg="2">
                 <v-select @input="select" :items="rover" v-model="valorSelect" label="Name Rover" :rules="nameRules"></v-select>
             </v-col>
 
-            <v-col cols="12" sm="6" md="2">
+            <v-col cols="12" sm="5" md="3" lg="2">
                 <v-menu
                     ref="menu"
                     v-model="menu"
@@ -68,11 +68,9 @@ import { mapState, mapActions } from 'vuex'
       },
       dateRover(sol){
         this.sendSol(sol)
-        console.log(sol)
       },
       select(select){
         this.sendSelect(select)
-        console.log(select)
       },
       save (date) {
         this.$refs.menu.save(date)
