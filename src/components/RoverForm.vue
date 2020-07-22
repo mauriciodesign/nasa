@@ -1,59 +1,83 @@
 <template>
+<v-form v-model="valid">
     <v-container class="my-5">
         <v-row justify="center">
-            <v-col cols="12" sm="5" md="3" lg="2">
-                <v-select @input="select" :items="rover" v-model="valorSelect" label="Name Rover" :rules="nameRules"></v-select>
+            <v-col cols="12" md="3" lg="2">
+                <v-select @input="dateType" :items="dateTypeSelect" v-model="dateTypeValue" label="Select Date Type"></v-select>
             </v-col>
 
-            <v-col cols="12" sm="5" md="3" lg="2">
-                <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    lazy
-                    transition="scale-transition"
-                    offset-y>
-                    <template v-slot:activator="{ on }">
-                        <v-text-field
-                            v-model="dateSol"
-                            :rules="nameRules"
-                            label="Select a date"
-                            readonly
-                            required
-                            v-on="on">
-                        </v-text-field>
-                    </template>
+            <v-col cols="12" md="6" lg="4" v-if="dateTypeValue === 'Earth Date'">
+                <v-row justify="center">
+                  <v-col cols="12" md="6" class="py-0">
+                    <v-select @input="selectRover" :items="rover" v-model="selectRoverValue" label="Name Rover"></v-select>
+                  </v-col>
 
-                    <v-date-picker v-if="search.selectRover === 'curiosity'" min="2012-08-06" :max="new Date().toISOString().substr(0,10)" v-model="dateSol" @input="dateRover" ref="picker" @change="save"></v-date-picker>
+                  <v-col cols="12" md="6" class="py-0">
+                    <v-menu v-if="selectRoverValue !== null"
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        lazy
+                        transition="scale-transition"
+                        offset-y>
+                        <template v-slot:activator="{ on }">
+                            <v-text-field
+                                v-model="dateEarth"
+                                label="Select a date"
+                                readonly
+                                required
+                                v-on="on">
+                            </v-text-field>
+                        </template>
 
-                    <v-date-picker v-else-if="search.selectRover === 'opportunity'" min="2004-01-26" max="2018-06-11" v-model="dateSol" @input="dateRover" ref="picker" @change="save"></v-date-picker>
+                        <v-date-picker v-if="search.selectRoverValue === 'curiosity'" min="2012-08-06" :max="new Date().toISOString().substr(0,10)" v-model="dateEarth" @input="dateEarthRover" ref="picker"></v-date-picker>
 
-                    <v-date-picker v-else-if="search.selectRover === 'spirit'" min="2004-01-05" max="2010-03-21"  v-model="dateSol" @input="dateRover" ref="picker" @change="save"></v-date-picker>
+                        <v-date-picker v-else-if="search.selectRoverValue === 'opportunity'" min="2004-01-26" max="2018-06-11" v-model="dateEarth" @input="dateEarthRover" ref="picker" ></v-date-picker>
 
-                </v-menu>
+                        <v-date-picker v-else-if="search.selectRoverValue === 'spirit'" min="2004-01-05" max="2010-03-21"  v-model="dateEarth" @input="dateEarthRover" ref="picker" ></v-date-picker>
+
+                    </v-menu>
+                  </v-col>
+                </v-row>
+            </v-col>
+
+            <v-col cols="12" md="6" lg="4" v-if="dateTypeValue === 'Sol Date'">
+                <v-row justify="center">
+                    <v-col cols="12" md="6" class="py-0">
+                      <v-select @input="selectRover" :items="rover" v-model="selectRoverValue" label="Name Rover"></v-select>
+                    </v-col>
+                    <v-col cols="12" md="6" class="py-0">
+                      <v-text-field v-model="dateSol" label="Sun Numbrer" @input="sendDateSolRover" type="number" min="1" max="30"></v-text-field>
+                    </v-col>
+                </v-row>
             </v-col>
             <div class="pt-4 ml-5">
-              <v-btn color="success" large dark @click="dateResult"><v-icon>mdi-magnify</v-icon>Search</v-btn>
+                <v-btn color="success" large dark @click="dateResult"><v-icon>mdi-magnify</v-icon>Search</v-btn>
             </div>
         </v-row>
     </v-container>
+</v-form>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
   export default {
     data: () => ({
+      valid: false,
+      dateTypeValue:'',
+      selectRoverValue: null,
+      dateEarth: '',
       dateSol: '',
-      valorSelect: null,
       menu: false,
       rover: [
         'curiosity',
         'opportunity',
         'spirit',
       ],
-      nameRules: [
-        v => !!v || 'Option is required',
+      dateTypeSelect: [
+        'Earth Date',
+        'Sol Date',
       ],
     }),
 
@@ -62,25 +86,24 @@ import { mapState, mapActions } from 'vuex'
     },
 
     methods: {
-      ...mapActions(['getRover', 'sendSol', 'sendSelect']),
+      ...mapActions(['getRover', 'sendDateType', 'sendSelectRover', 'sendDateEarthRover', 'sendDateSolRover']),
+
       dateResult(){
         this.getRover()
       },
-      dateRover(sol){
-        this.sendSol(sol)
+      dateType(dateTypeValue){
+        this.sendDateType(dateTypeValue)
       },
-      select(select){
-        this.sendSelect(select)
+      selectRover(selectRoverValue){
+        this.sendSelectRover(selectRoverValue)
       },
-      save (date) {
-        this.$refs.menu.save(date)
-      }
+      dateEarthRover(dateEarth){
+        this.sendDateEarthRover(dateEarth)
+      },
+      dateSolRover(dateSol){
+        this.sendDateSolRover(dateSol)
+      },
     },
-    watch: {
-    menu (val) {
-      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
-      }
-    }
   }
 </script>
 

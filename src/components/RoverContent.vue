@@ -6,8 +6,7 @@
                     v-for="rover in rovers" :key="rover.id"
                     class="px-8 py-8"
                     cols="12"
-                    md="6"
-                    lg="4">
+                    md="6">
                     <v-card class="card mx-auto">
                         <v-img
                           class="white--text align-end"

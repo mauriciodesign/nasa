@@ -21,9 +21,11 @@ export default new Vuex.Store({
     apods: [],
     rovers: [],
     currentUser: getFromStorage('user') || undefined,
-    search: {
-      dateSol: '',
-      selectRover: ''
+    dateTypeValue:'',
+    search:{
+      selectRoverValue: null,
+      dateEarth: '',
+      dateSol:''
     }
   },
   mutations: {
@@ -35,11 +37,12 @@ export default new Vuex.Store({
       setInStorage('user', user)
     },
     GET_APOD(state, apods) { state.apods = apods },
-    SET_PIKER(state, apods) { state.apods = apods },
-    GET_ROVER(state, rovers) { state.rovers = rovers },
-    GET_ROVER_LATEST(state, rovers) { state.rovers = rovers },
-    SEND_SOL(state, sol) { state.search.dateSol = sol },
-    SEND_SELECT(state, select) { state.search.selectRover = select }
+    GET_ROVER(state, rovers){ state.rovers = rovers},
+    GET_ROVER_LATEST(state, rovers){ state.rovers = rovers},
+    SEND_DATE_TYPE(state, dateTypeValue) { state.dateTypeValue = dateTypeValue},
+    SEND_SELECT_ROVER(state, selectRoverValue) { state.search.selectRoverValue = selectRoverValue},
+    SEND_DATE_EARTH_ROVER(state, dateEarth) { state.search.dateEarth = dateEarth},
+    SEND_DATE_SOL_ROVER(state, dateSol) { state.search.dateSol = dateSol},
   },
   actions: {
     getApod({ commit }) {
@@ -68,24 +71,43 @@ export default new Vuex.Store({
           alert('No hay contenido con esta fecha')
         })
     },
-    sendSol({ commit }, sol) {
-      commit('SEND_SOL', sol)
+    sendDateType({ commit }, dateTypeValue){
+      commit('SEND_DATE_TYPE', dateTypeValue)
+      console.log(this.state.dateTypeValue)
     },
-    sendSelect({ commit }, select) {
-      commit('SEND_SELECT', select)
+    sendSelectRover({ commit }, selectRoverValue){
+      commit('SEND_SELECT_ROVER', selectRoverValue)
     },
-    getRover({ commit, state }) {
-      axios.get(`${roverUrl}${state.search.selectRover}/photos?earth_date=${state.search.dateSol}&api_key=${apiKey}`)
+    sendDateEarthRover({ commit }, dateEarth){
+      commit('SEND_DATE_EARTH_ROVER', dateEarth)
+    },
+    sendDateSolRover({ commit }, dateSol){
+      commit('SEND_DATE_SOL_ROVER', dateSol)
+    },
+    getRover({ commit, state }){
+      if (state.dateTypeValue == 'Earth Date') {
+        axios.get(`${roverUrl}${state.search.selectRoverValue}/photos?earth_date=${state.search.dateEarth}&api_key=${apiKey}`)
         .then(response => {
+          console.log(response)
           commit('GET_ROVER', response.data.photos)
+          console.log(response.data.photos)
         })
-    },
-    getRoverlatest({ commit }) {
-      axios.get(`${roverlatestUrl}?&api_key=${apiKey}`)
+      }
+      if (state.dateTypeValue == 'Sol Date'){
+        axios.get(`${roverUrl}${state.search.selectRoverValue}/photos?sol=${state.search.dateSol}&api_key=${apiKey}`)
         .then(response => {
-          commit('GET_ROVER_LATEST', response.data.latest_photos)
-          console.log(response.data.latest_photos)
+          console.log(response)
+          commit('GET_ROVER', response.data.photos)
+          console.log(response.data.photos)
         })
+      }
+    },
+    getRoverlatest({ commit }){
+      axios.get(`${roverlatestUrl}?&api_key=${apiKey}`)
+      .then(response => {
+        commit('GET_ROVER_LATEST', response.data.latest_photos)
+        console.log(response.data.latest_photos)
+      })
     }
   },
   modules: {
