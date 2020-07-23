@@ -41,11 +41,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setCurrentUser']),
+    ...mapActions(['updateUser']),
     login(){
       Firebase.auth().signInWithEmailAndPassword(this.user, this.password)
       .then((response) =>{
-         this.setCurrentUser(response.user.email)
+         this.updateUser(response.user.email)
          this.$router.push('/apod')
            alert(`bienvenido ${this.user}`)
        }).catch((error)=>{

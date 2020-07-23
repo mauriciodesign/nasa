@@ -26,7 +26,10 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
+    meta: {
+      whitLogin: true
+    },
   },
   {
     path: '*',
@@ -44,11 +47,12 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let user = Firebase.auth().currentUser;
-  let authRequired = to.matched.some(route => route.meta.login);
-  if (!user && authRequired) {
-    next('/login')
-  } else {
-    next();
-  }
+  let authRequire = to.matched.some(router => router.meta.login);
+  let loginPage = to.matched.some(router => router.meta.whitLogin);
+
+  !user && authRequire ? next('/login') : next();
+
+  user && loginPage ? next('/') : next();
 })
+
 export default router

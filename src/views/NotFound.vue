@@ -3,8 +3,14 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-
+    methods: {
+        ...mapActions(['updateUser'])
+    },
+    created() {
+          this.updateUser(null)
+    },
 }
 </script>
 

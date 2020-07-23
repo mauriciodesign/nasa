@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="primary" dark v-if="currentUser">
         <div class="d-flex align-center">
           <v-img
             alt="Vuetify Logo"
@@ -19,7 +19,7 @@
 
         <v-spacer></v-spacer>
 
-        <div v-if="currentUser">
+        <div>
             <v-btn class="mx-2" text to="/apod">Apod</v-btn>
             <v-btn class="mx-2" text to="/rover">Rover</v-btn>
             <v-btn class="mx-2" target="_blank" text @click="logout">
@@ -39,10 +39,10 @@ import { mapState, mapActions } from 'vuex'
         ...mapState(['currentUser'])
     },
     methods: {
-        ...mapActions(['setCurrentUser']),
+        ...mapActions(['updateUser']),
       logout(){
         Firebase.auth().signOut().then(() =>{
-          this.setCurrentUser(null)
+          this.updateUser(null)
           this.$router.push('/login')
         })
       }

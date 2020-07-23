@@ -29,9 +29,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    SET_CURRENT_USER(state, email) {
-      state.currentUser = email
-    },
     UPDATE_USER(state, user) {
       state.currentUser = user
       setInStorage('user', user)
@@ -66,9 +63,6 @@ export default new Vuex.Store({
           resolve(user)
         } catch (e) { reject(e) }
       })
-    },
-    setCurrentUser({ commit }, email) {
-      commit('SET_CURRENT_USER', email)
     },
     sendDateType({ commit }, dateTypeValue) {
       commit('SEND_DATE_TYPE', dateTypeValue)

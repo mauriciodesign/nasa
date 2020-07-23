@@ -2,7 +2,9 @@
   <v-app>
     <v-content>
       <NavBar/>
-      <router-view/>
+      <transition name='fade'>
+        <router-view/>
+      </transition>
     </v-content>
   </v-app>
 </template>
@@ -22,3 +24,14 @@ export default {
   }),
 };
 </script>
+<style lang="scss">
+.fade-enter-active, .fade-leave-active {
+  transition: .3s;
+}
+.fade-enter-active {
+  transition-delay: .3s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+</style>

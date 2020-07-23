@@ -38,16 +38,16 @@ export default {
     },
   computed: {
     ...mapState(['apods']),
-
   },
   methods: {
-    ...mapActions(["getApod"]),
+    ...mapActions(["getApod", 'updateUser']),
         getDate(date){
           this.getApod(date)
         }
   },
   created() {
     this.getApod(this.date);
+    this.updateUser(true)
   }
 };
 </script>
