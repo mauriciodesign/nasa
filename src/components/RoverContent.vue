@@ -15,10 +15,11 @@
                         </v-img>
 
                         <v-card-title class="px-7">
-                            <h3>{{rover.rover.name}} | Cámara: {{rover.camera.full_name}} | {{rover.camera.name}}</h3>
+                            <h2>{{rover.rover.name}}</h2>
                         </v-card-title>
                         <v-card-text class="text--primary px-7">
-                            <div>Día en la Tierra: {{rover.earth_date}}  |  Dias Sol {{rover.sol}}</div>
+                            <h2>Cámara: {{rover.camera.full_name}} | {{rover.camera.name}}</h2>
+                            <div class="py-2">Day on earth: {{rover.earth_date}}  |  Sol day {{rover.sol}}</div>
                         </v-card-text>
                     </v-card>
                 </v-col>

@@ -46,14 +46,17 @@ export default new Vuex.Store({
   },
   actions: {
     getApod({ commit }, date) {
-      // let queryDate = date ? date : new Date().toISOString().substr(0, 10);
-      // console.log(queryDate)
+      let queryDate =  new Date(new Date().getTime() - 1000 * 60 * 60 * 24).toISOString().substr(0, 10);
+
       axios.get(`${apodUrl}date=${date}&api_key=${apiKey}`)
         .then(response => {
           commit('GET_APOD', response.data)
         })
         .catch(() => {
-          console.log('algo malio sal')
+          axios.get(`${apodUrl}date=${queryDate}&api_key=${apiKey}`)
+            .then(response => {
+              commit('GET_APOD', response.data)
+            })
         })
     },
     updateUser({ commit }, user) {
@@ -69,7 +72,6 @@ export default new Vuex.Store({
     },
     sendDateType({ commit }, dateTypeValue) {
       commit('SEND_DATE_TYPE', dateTypeValue)
-      console.log(this.state.dateTypeValue)
     },
     sendSelectRover({ commit }, selectRoverValue) {
       commit('SEND_SELECT_ROVER', selectRoverValue)
@@ -84,17 +86,13 @@ export default new Vuex.Store({
       if (state.dateTypeValue == 'Earth Date') {
         axios.get(`${roverUrl}${state.search.selectRoverValue}/photos?earth_date=${state.search.dateEarth}&api_key=${apiKey}`)
           .then(response => {
-            console.log(response)
             commit('GET_ROVER', response.data.photos)
-            console.log(response.data.photos)
           })
       }
       if (state.dateTypeValue == 'Sol Date') {
         axios.get(`${roverUrl}${state.search.selectRoverValue}/photos?sol=${state.search.dateSol}&api_key=${apiKey}`)
           .then(response => {
-            console.log(response)
             commit('GET_ROVER', response.data.photos)
-            console.log(response.data.photos)
           })
       }
     },
@@ -102,7 +100,6 @@ export default new Vuex.Store({
       axios.get(`${roverlatestUrl}?&api_key=${apiKey}`)
         .then(response => {
           commit('GET_ROVER_LATEST', response.data.latest_photos)
-          console.log(response.data.latest_photos)
         })
     }
   },

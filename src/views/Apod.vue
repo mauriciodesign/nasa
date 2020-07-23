@@ -3,12 +3,12 @@
         <v-row justify="center">
           <v-col cols="11" md="4" lg="3">
             <div class="px-xl-15">
-                <v-date-picker min="1995-06-20" v-model="date" @input="getDate" elevation="15" class="rounded-lg picker" height="auto" width="100%"></v-date-picker>
+                <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" elevation="15" class="rounded-lg picker" height="auto" width="100%"></v-date-picker>
             </div>
             </v-col>
             <v-col class="mx-0" cols="11" md="8" lg="9">
                 <h1>{{apods.title}}</h1>
-                <p>{{date}}</p>
+                <p>{{apods.date}}</p>
                 <v-card class="rounded-lg" elevation="15" >
                     <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" width="100%"></v-img>
                     <iframe v-else width="100%" height="500" :src="apods.url"></iframe>
@@ -47,7 +47,7 @@ export default {
         }
   },
   created() {
-    this.getApod();
+    this.getApod(this.date);
   }
 };
 </script>

@@ -22,7 +22,7 @@
                         <template v-slot:activator="{ on }">
                             <v-text-field
                                 v-model="dateEarth"
-                                label="Select a date"
+                                label="Select earth date"
                                 required
                                 :rules="selectRules"
                                 :disabled="selectRoverValue === null"
@@ -47,7 +47,7 @@
                       <v-select @input="selectRover" :items="rover" v-model="selectRoverValue" label="Name Rover" required :rules="selectRules"></v-select>
                     </v-col>
                     <v-col cols="12" md="6" class="py-0">
-                      <v-text-field v-model="dateSol" label="Sun Numbrer" @input="sendDateSolRover" type="number" min="1" max="5107" required :rules="selectRules"></v-text-field>
+                      <v-text-field v-model="dateSol" label="Select sol date" @input="sendDateSolRover" type="number" min="1" max="5107" required :rules="selectRules"></v-text-field>
                     </v-col>
                 </v-row>
             </v-col>
