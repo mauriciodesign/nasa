@@ -21,11 +21,11 @@ export default new Vuex.Store({
     apods: [],
     rovers: [],
     currentUser: getFromStorage('user') || undefined,
-    dateTypeValue:'',
-    search:{
+    dateTypeValue: '',
+    search: {
       selectRoverValue: null,
       dateEarth: '',
-      dateSol:''
+      dateSol: ''
     }
   },
   mutations: {
@@ -37,18 +37,23 @@ export default new Vuex.Store({
       setInStorage('user', user)
     },
     GET_APOD(state, apods) { state.apods = apods },
-    GET_ROVER(state, rovers){ state.rovers = rovers},
-    GET_ROVER_LATEST(state, rovers){ state.rovers = rovers},
-    SEND_DATE_TYPE(state, dateTypeValue) { state.dateTypeValue = dateTypeValue},
-    SEND_SELECT_ROVER(state, selectRoverValue) { state.search.selectRoverValue = selectRoverValue},
-    SEND_DATE_EARTH_ROVER(state, dateEarth) { state.search.dateEarth = dateEarth},
-    SEND_DATE_SOL_ROVER(state, dateSol) { state.search.dateSol = dateSol},
+    GET_ROVER(state, rovers) { state.rovers = rovers },
+    GET_ROVER_LATEST(state, rovers) { state.rovers = rovers },
+    SEND_DATE_TYPE(state, dateTypeValue) { state.dateTypeValue = dateTypeValue },
+    SEND_SELECT_ROVER(state, selectRoverValue) { state.search.selectRoverValue = selectRoverValue },
+    SEND_DATE_EARTH_ROVER(state, dateEarth) { state.search.dateEarth = dateEarth },
+    SEND_DATE_SOL_ROVER(state, dateSol) { state.search.dateSol = dateSol },
   },
   actions: {
-    getApod({ commit }) {
-      axios.get(`${apodUrl}api_key=${apiKey}`)
+    getApod({ commit }, date) {
+      // let queryDate = date ? date : new Date().toISOString().substr(0, 10);
+      // console.log(queryDate)
+      axios.get(`${apodUrl}date=${date}&api_key=${apiKey}`)
         .then(response => {
           commit('GET_APOD', response.data)
+        })
+        .catch(() => {
+          console.log('algo malio sal')
         })
     },
     updateUser({ commit }, user) {
@@ -62,52 +67,43 @@ export default new Vuex.Store({
     setCurrentUser({ commit }, email) {
       commit('SET_CURRENT_USER', email)
     },
-    setPiker({ commit }, date) {
-      axios.get(`${apodUrl}date=${date}&api_key=${apiKey}`)
-        .then(response => {
-          commit('SET_PIKER', response.data)
-        })
-        .catch(() => {
-          alert('No hay contenido con esta fecha')
-        })
-    },
-    sendDateType({ commit }, dateTypeValue){
+    sendDateType({ commit }, dateTypeValue) {
       commit('SEND_DATE_TYPE', dateTypeValue)
       console.log(this.state.dateTypeValue)
     },
-    sendSelectRover({ commit }, selectRoverValue){
+    sendSelectRover({ commit }, selectRoverValue) {
       commit('SEND_SELECT_ROVER', selectRoverValue)
     },
-    sendDateEarthRover({ commit }, dateEarth){
+    sendDateEarthRover({ commit }, dateEarth) {
       commit('SEND_DATE_EARTH_ROVER', dateEarth)
     },
-    sendDateSolRover({ commit }, dateSol){
+    sendDateSolRover({ commit }, dateSol) {
       commit('SEND_DATE_SOL_ROVER', dateSol)
     },
-    getRover({ commit, state }){
+    getRover({ commit, state }) {
       if (state.dateTypeValue == 'Earth Date') {
         axios.get(`${roverUrl}${state.search.selectRoverValue}/photos?earth_date=${state.search.dateEarth}&api_key=${apiKey}`)
-        .then(response => {
-          console.log(response)
-          commit('GET_ROVER', response.data.photos)
-          console.log(response.data.photos)
-        })
+          .then(response => {
+            console.log(response)
+            commit('GET_ROVER', response.data.photos)
+            console.log(response.data.photos)
+          })
       }
-      if (state.dateTypeValue == 'Sol Date'){
+      if (state.dateTypeValue == 'Sol Date') {
         axios.get(`${roverUrl}${state.search.selectRoverValue}/photos?sol=${state.search.dateSol}&api_key=${apiKey}`)
-        .then(response => {
-          console.log(response)
-          commit('GET_ROVER', response.data.photos)
-          console.log(response.data.photos)
-        })
+          .then(response => {
+            console.log(response)
+            commit('GET_ROVER', response.data.photos)
+            console.log(response.data.photos)
+          })
       }
     },
-    getRoverlatest({ commit }){
+    getRoverlatest({ commit }) {
       axios.get(`${roverlatestUrl}?&api_key=${apiKey}`)
-      .then(response => {
-        commit('GET_ROVER_LATEST', response.data.latest_photos)
-        console.log(response.data.latest_photos)
-      })
+        .then(response => {
+          commit('GET_ROVER_LATEST', response.data.latest_photos)
+          console.log(response.data.latest_photos)
+        })
     }
   },
   modules: {

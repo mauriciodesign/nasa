@@ -1,41 +1,40 @@
 <template>
-<v-form v-model="valid">
+<v-form ref="form" v-model="valid" lazy-validation>
     <v-container class="my-5">
         <v-row justify="center">
             <v-col cols="12" md="3" lg="2">
-                <v-select @input="dateType" :items="dateTypeSelect" v-model="dateTypeValue" label="Select Date Type"></v-select>
+                <v-select @input="dateType" :items="dateTypeSelect" v-model="dateTypeValue" label="Select Date Type" required :rules="selectRules"></v-select>
             </v-col>
 
             <v-col cols="12" md="6" lg="4" v-if="dateTypeValue === 'Earth Date'">
                 <v-row justify="center">
                   <v-col cols="12" md="6" class="py-0">
-                    <v-select @input="selectRover" :items="rover" v-model="selectRoverValue" label="Name Rover"></v-select>
+                    <v-select @input="selectRover" :items="rover" v-model="selectRoverValue" label="Name Rover" required :rules="selectRules"></v-select>
                   </v-col>
 
                   <v-col cols="12" md="6" class="py-0">
-                    <v-menu v-if="selectRoverValue !== null"
+                    <v-menu
                         ref="menu"
                         v-model="menu"
                         :close-on-content-click="false"
-                        :nudge-right="40"
-                        lazy
                         transition="scale-transition"
                         offset-y>
                         <template v-slot:activator="{ on }">
                             <v-text-field
                                 v-model="dateEarth"
                                 label="Select a date"
-                                readonly
                                 required
+                                :rules="selectRules"
+                                :disabled="selectRoverValue === null"
                                 v-on="on">
                             </v-text-field>
                         </template>
 
-                        <v-date-picker v-if="search.selectRoverValue === 'curiosity'" min="2012-08-06" :max="new Date().toISOString().substr(0,10)" v-model="dateEarth" @input="dateEarthRover" ref="picker"></v-date-picker>
+                        <v-date-picker v-if="selectRoverValue === 'curiosity'" min="2012-08-06" :max="new Date().toISOString().substr(0,10)" v-model="dateEarth" @input="dateEarthRover" ref="picker"></v-date-picker>
 
-                        <v-date-picker v-else-if="search.selectRoverValue === 'opportunity'" min="2004-01-26" max="2018-06-11" v-model="dateEarth" @input="dateEarthRover" ref="picker" ></v-date-picker>
+                        <v-date-picker v-else-if="selectRoverValue === 'opportunity'" min="2004-01-26" max="2018-06-11" v-model="dateEarth" @input="dateEarthRover" ref="picker" ></v-date-picker>
 
-                        <v-date-picker v-else-if="search.selectRoverValue === 'spirit'" min="2004-01-05" max="2010-03-21"  v-model="dateEarth" @input="dateEarthRover" ref="picker" ></v-date-picker>
+                        <v-date-picker v-else-if="selectRoverValue === 'spirit'" min="2004-01-05" max="2010-03-21"  v-model="dateEarth" @input="dateEarthRover" ref="picker"></v-date-picker>
 
                     </v-menu>
                   </v-col>
@@ -45,10 +44,10 @@
             <v-col cols="12" md="6" lg="4" v-if="dateTypeValue === 'Sol Date'">
                 <v-row justify="center">
                     <v-col cols="12" md="6" class="py-0">
-                      <v-select @input="selectRover" :items="rover" v-model="selectRoverValue" label="Name Rover"></v-select>
+                      <v-select @input="selectRover" :items="rover" v-model="selectRoverValue" label="Name Rover" required :rules="selectRules"></v-select>
                     </v-col>
                     <v-col cols="12" md="6" class="py-0">
-                      <v-text-field v-model="dateSol" label="Sun Numbrer" @input="sendDateSolRover" type="number" min="1" max="30"></v-text-field>
+                      <v-text-field v-model="dateSol" label="Sun Numbrer" @input="sendDateSolRover" type="number" min="1" max="5107" required :rules="selectRules"></v-text-field>
                     </v-col>
                 </v-row>
             </v-col>
@@ -64,12 +63,13 @@
 import { mapState, mapActions } from 'vuex'
   export default {
     data: () => ({
-      valid: false,
+      valid: true,
       dateTypeValue:'',
       selectRoverValue: null,
-      dateEarth: '',
-      dateSol: '',
+      dateEarth: null,
+      dateSol: null,
       menu: false,
+      selectRules:[v => !!v || 'Item is required'],
       rover: [
         'curiosity',
         'opportunity',
@@ -80,16 +80,16 @@ import { mapState, mapActions } from 'vuex'
         'Sol Date',
       ],
     }),
-
     computed: {
-    ...mapState(['search']),
+      ...mapState(['roverLatest'])
     },
-
     methods: {
       ...mapActions(['getRover', 'sendDateType', 'sendSelectRover', 'sendDateEarthRover', 'sendDateSolRover']),
 
       dateResult(){
-        this.getRover()
+        if (this.$refs.form.validate() !== false) {
+          this.getRover()
+        }
       },
       dateType(dateTypeValue){
         this.sendDateType(dateTypeValue)
@@ -98,11 +98,17 @@ import { mapState, mapActions } from 'vuex'
         this.sendSelectRover(selectRoverValue)
       },
       dateEarthRover(dateEarth){
+        this.$refs.menu.save(dateEarth)
         this.sendDateEarthRover(dateEarth)
       },
       dateSolRover(dateSol){
         this.sendDateSolRover(dateSol)
       },
+    },
+    watch: {
+      menu (val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+      }
     },
   }
 </script>
