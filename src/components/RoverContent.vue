@@ -14,7 +14,7 @@
                     class="px-8 py-8"
                     cols="12"
                     md="6">
-                    <v-card class="card mx-auto">
+                    <v-card class="card mx-auto" dark>
                         <v-img
                           class="white--text align-end"
                           :src="rover.img_src"
@@ -24,7 +24,7 @@
                         <v-card-title class="px-7">
                             <h2>{{rover.rover.name}}</h2>
                         </v-card-title>
-                        <v-card-text class="text--primary px-7">
+                        <v-card-text class="px-7">
                             <h2>Cámara: {{rover.camera.full_name}} | {{rover.camera.name}}</h2>
                             <div class="py-2">Day on earth: {{rover.earth_date}}  |  Sol day {{rover.sol}}</div>
                         </v-card-text>
@@ -62,7 +62,7 @@ export default {
 <style lang="scss">
 .card {
   transition: all 0.2s ease-out !important;
-  box-shadow: 0 2px 43px -4px rgba(0, 0, 0, 0.19) !important;
+  box-shadow: 0 2px 43px -4px rgba(0, 0, 0, 0.5) !important;
   border-radius: 20px !important;
 }
 .card:hover {

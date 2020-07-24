@@ -41,11 +41,11 @@
                             </v-text-field>
                         </template>
 
-                        <v-date-picker v-if="selectRoverValue === 'curiosity'" min="2012-08-06" :max="new Date().toISOString().substr(0,10)" v-model="dateEarth" @input="dateEarthRover" ref="picker"></v-date-picker>
+                        <v-date-picker v-if="selectRoverValue === 'curiosity'" min="2012-08-06" :max="new Date().toISOString().substr(0,10)" v-model="dateEarth" @input="dateEarthRover" ref="picker" dark></v-date-picker>
 
-                        <v-date-picker v-else-if="selectRoverValue === 'opportunity'" min="2004-01-26" max="2018-06-11" v-model="dateEarth" @input="dateEarthRover" ref="picker" ></v-date-picker>
+                        <v-date-picker v-else-if="selectRoverValue === 'opportunity'" min="2004-01-26" max="2018-06-11" v-model="dateEarth" @input="dateEarthRover" ref="picker" dark></v-date-picker>
 
-                        <v-date-picker v-else-if="selectRoverValue === 'spirit'" min="2004-01-05" max="2010-03-21"  v-model="dateEarth" @input="dateEarthRover" ref="picker"></v-date-picker>
+                        <v-date-picker v-else-if="selectRoverValue === 'spirit'" min="2004-01-05" max="2010-03-21"  v-model="dateEarth" @input="dateEarthRover" ref="picker" dark></v-date-picker>
 
                     </v-menu>
                   </v-col>
@@ -53,7 +53,7 @@
             </v-col>
 
             <div class="pt-4 ml-5">
-                <v-btn color="success" large dark @click="dateResult"><v-icon>mdi-magnify</v-icon>Search</v-btn>
+                <v-btn color="info" large dark @click="dateResult"><v-icon>mdi-magnify</v-icon>Search</v-btn>
             </div>
         </v-row>
     </v-container>
