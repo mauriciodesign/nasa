@@ -1,6 +1,13 @@
 <template>
-    <v-main>
+    <v-main class="py-3">
         <v-container>
+            <div v-if="cameras">
+              <v-row justify="center">
+                <div class="px-5 my-5" v-for="(count, camera) in camerasCount" :key="camera">
+                   <h3>{{ camera }} : {{ count }}</h3>
+                </div>
+              </v-row>
+            </div>
             <v-row>
                 <v-col
                     v-for="rover in rovers" :key="rover.id"
@@ -29,13 +36,22 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapState(['rovers'])
+    ...mapState(["rovers"]),
+    ...mapGetters(["cameras"]),
+
+    camerasCount() {
+      let summary = {};
+      this.cameras.map(camera => {
+        summary[camera] = (summary[camera] || 0) + 1;
+      });
+      return summary;
+    },
   },
   methods: {
-    ...mapActions(['getRoverlatest'])
+    ...mapActions(['getRoverlatest']),
   },
   created() {
     this.getRoverlatest()

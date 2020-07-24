@@ -70,6 +70,13 @@ export default new Vuex.Store({
         })
     }
   },
+  getters: {
+    cameras(state) {
+      return state.rovers.map((photo) => {
+        return photo.camera.name
+      })
+    }
+  },
   modules: {
   }
 })

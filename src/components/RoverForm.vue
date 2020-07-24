@@ -1,6 +1,6 @@
 <template>
 <v-form ref="form">
-    <v-container class="my-5">
+    <v-container class="mt-5">
         <v-row justify="center">
             <v-col cols="12" md="3" lg="2">
                 <v-select :items="dateTypeSelect" v-model="dateTypeValue" label="Select Date Type" required :rules="selectRules"></v-select>
