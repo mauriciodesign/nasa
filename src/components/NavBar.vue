@@ -42,8 +42,8 @@ import { mapState, mapActions } from 'vuex'
         ...mapActions(['updateUser']),
       logout(){
         Firebase.auth().signOut().then(() =>{
-          this.updateUser(null)
           this.$router.push('/login')
+          this.updateUser(null)
         })
       }
     },

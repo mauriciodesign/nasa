@@ -54,6 +54,9 @@ export default {
        })
     }
   },
+  created() {
+    this.updateUser(null)
+  },
 };
 </script>
 

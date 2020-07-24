@@ -12,7 +12,7 @@ const routes = [
     component: Apod,
     alias:['/home','/'],
     meta: {
-        login: true
+      requireLogin: true
     }
   },
   {
@@ -20,7 +20,7 @@ const routes = [
     name: 'rover',
     component: () => import(/* webpackChunkName: "rover" */ '../views/Rover.vue'),
     meta: {
-        login: true
+      requireLogin: true
     }
   },
   {
@@ -28,15 +28,14 @@ const routes = [
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
     meta: {
-      whitLogin: true
-    },
+      login: true
+    }
   },
   {
     path: '*',
     name: 'NotFound',
     component: () => import(/* webpackChunkName: "notfound" */ '../views/NotFound.vue')
   },
-
 ]
 
 const router = new VueRouter({
@@ -47,12 +46,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let user = Firebase.auth().currentUser;
-  let authRequire = to.matched.some(router => router.meta.login);
-  let loginPage = to.matched.some(router => router.meta.whitLogin);
+  let authRequired = to.matched.some(router => router.meta.requireLogin);
+  let authLogin = to.matched.some(router => router.meta.login);
 
-  !user && authRequire ? next('/login') : next();
+  !user && authRequired ? next('/login') : next()
+  user && authLogin ? next('/apod') : next()
+  !user && !authLogin ? next('/login') : next()
 
-  user && loginPage ? next('/') : next();
 })
 
 export default router
