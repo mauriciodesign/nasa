@@ -17,12 +17,12 @@
       </span>
 
       <div class="menu-down">
-        <v-btn class="mx-2" text v-for="menu in menu" :key='menu.title' :to='menu.link'>
-          <span class="mr-4">{{menu.title}}</span>
+        <v-btn class="mx-1" text v-for="menu in menu" :key='menu.title' :to='menu.link'>
+          <span class="mr-3">{{menu.title}}</span>
           <img :src='menu.icon' width="25" class="icon-menu">
         </v-btn>
         <v-btn class="mx-2" target="_blank" text @click="logout">
-            <span class="mr-4">Logout</span>
+            <span class="mr-3">Logout</span>
             <v-icon>mdi-logout</v-icon>
         </v-btn>
       </div>

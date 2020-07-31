@@ -12,7 +12,7 @@
                 <p>{{apods.date}}</p>
                 <v-card class="rounded-lg" elevation="15" dark>
                     <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" width="100%"></v-img>
-                    <iframe v-else width="100%" height="500" :src="apods.url"></iframe>
+                    <iframe v-if="apods.media_type === 'video'" width="100%" height="500" :src="apods.url"></iframe>
                     <v-card-text class="px-10 py-10">
                         <div>{{apods.explanation}}</div>
                     </v-card-text>
