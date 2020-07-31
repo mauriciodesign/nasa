@@ -1,7 +1,13 @@
 <template>
     <v-main height="100vh">
-        <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" height="100vh" class="apod__login"></v-img>
-        <v-img v-if="apods.media_type === 'video'" src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh" class="apod__login"></v-img>
+        <v-snackbar elevation="3" top color="error darken-1" v-model="alert" timeout="3000">
+            <div class="alert">
+                <v-icon class='mr-8'>mdi-alert</v-icon>
+                <v-text>The data is not correct</v-text>
+            </div>
+        </v-snackbar>
+        <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" height="100vh" class="login__apod"></v-img>
+        <v-img v-if="apods.media_type === 'video'" src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh" class="login__apod"></v-img>
         <div class="login">
           <div class="login__content">
             <v-img src="/img/NASA_logo.svg" transition="scale-transition" class="login__logo"></v-img>
@@ -37,6 +43,7 @@ export default {
       user:'',
       password:'',
       showPassword: false,
+      alert:true,
       date: new Date().toISOString().substr(0, 10),
     }
   },
@@ -50,10 +57,9 @@ export default {
       .then((response) =>{
          this.updateUser(response.user.email)
          this.$router.push('/apod')
-           alert(`bienvenido ${this.user}`)
-       }).catch((error)=>{
-           alert(error);
-           alert('algo salio mal, intentelo de nuevo')
+       })
+       .catch(()=>{
+          this.alert = true
        })
     }
   },
@@ -65,8 +71,8 @@ export default {
 </script>
 
 <style lang="scss">
-.apod__login{
-  position: fixed;
+.alert{
+    text-align: center;
 }
 .login{
     width: 100%;
@@ -74,6 +80,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  &__apod{
+    position: fixed;
+  }
   &__content{
     margin: 20px 0;
   }
