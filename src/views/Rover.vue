@@ -1,8 +1,8 @@
 <template>
-  <v-container>
+  <v-main>
     <RoverForm/>
     <RoverContent/>
-  </v-container>
+  </v-main>
 </template>
 
 <script>
@@ -22,7 +22,3 @@ import { mapActions } from 'vuex'
     },
   }
 </script>
-
-<style>
-
-</style>

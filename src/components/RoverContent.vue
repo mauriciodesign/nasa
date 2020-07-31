@@ -1,38 +1,36 @@
 <template>
-    <v-main class="py-3">
-        <v-container>
-            <div v-if="cameras">
-              <v-row justify="center">
-                <div class="px-5 my-5" v-for="(count, camera) in camerasCount" :key="camera">
-                   <h3>{{ camera }} : {{ count }}</h3>
-                </div>
-              </v-row>
+    <v-container class="py-3">
+        <div v-if="cameras">
+          <v-row class="justify-center">
+            <div class="px-5 my-5" v-for="(count, camera) in camerasCount" :key="camera">
+               <h3>{{ camera }} : {{ count }}</h3>
             </div>
-            <v-row>
-                <v-col
-                    v-for="rover in rovers" :key="rover.id"
-                    class="px-8 py-8"
-                    cols="12"
-                    md="6">
-                    <v-card class="card mx-auto" dark>
-                        <v-img
-                          class="white--text align-end"
-                          :src="rover.img_src"
-                          :lazy-src="rover.img_src">
-                        </v-img>
+          </v-row>
+        </div>
+        <v-row>
+            <v-col
+                v-for="rover in rovers" :key="rover.id"
+                class="px-8 py-8"
+                cols="12"
+                md="6">
+                <v-card class="card mx-auto" dark>
+                    <v-img
+                      class="white--text align-end"
+                      :src="rover.img_src"
+                      :lazy-src="rover.img_src">
+                    </v-img>
 
-                        <v-card-title class="px-7">
-                            <h2>{{rover.rover.name}}</h2>
-                        </v-card-title>
-                        <v-card-text class="px-7">
-                            <h2>Cámara: {{rover.camera.full_name}} | {{rover.camera.name}}</h2>
-                            <div class="py-2">Day on earth: {{rover.earth_date}}  |  Sol day {{rover.sol}}</div>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-           </v-row>
-        </v-container>
-    </v-main>
+                    <v-card-title class="px-7">
+                        <h2>{{rover.rover.name}}</h2>
+                    </v-card-title>
+                    <v-card-text class="px-7">
+                        <h2>Cámara: {{rover.camera.full_name}} | {{rover.camera.name}}</h2>
+                        <div class="py-2">Day on earth: {{rover.earth_date}}  |  Sol day {{rover.sol}}</div>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+       </v-row>
+    </v-container>
 </template>
 
 <script>

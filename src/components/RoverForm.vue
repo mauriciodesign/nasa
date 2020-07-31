@@ -1,13 +1,13 @@
 <template>
 <v-form ref="form">
     <v-container class="mt-5">
-        <v-row justify="center">
-            <v-col cols="12" md="3" lg="2">
+        <v-row class="justify-center mx-8">
+            <v-col class="form__date" cols="12" md="3" lg="2">
                 <v-select :items="dateTypeSelect" v-model="dateTypeValue" label="Select Date Type" required :rules="selectRules"></v-select>
             </v-col>
 
-            <v-col cols="12" md="6" lg="4" v-if="dateTypeValue === 'Sol Date'">
-                <v-row justify="center">
+            <v-col class="form__name" cols="12" md="6" lg="4" v-if="dateTypeValue === 'Sol Date'">
+                <v-row class="justify-center">
                     <v-col cols="12" md="6" class="py-0">
                       <v-select :items="rover" v-model="selectRoverValue" label="Name Rover" required :rules="selectRules"></v-select>
                     </v-col>
@@ -18,7 +18,7 @@
             </v-col>
 
             <v-col cols="12" md="6" lg="4" v-if="dateTypeValue === 'Earth Date'">
-                <v-row justify="center">
+                <v-row class="justify-center">
                   <v-col cols="12" md="6" class="py-0">
                     <v-select :items="rover" v-model="selectRoverValue" label="Name Rover" required :rules="selectRules"></v-select>
                   </v-col>
@@ -101,5 +101,13 @@ import { mapActions } from 'vuex'
   }
 </script>
 
+<style lang="scss">
+
+@media (max-width: 959px) {
+  .form__name, .form__date{
+    padding: 0;
+  }
+}
+</style>
 
 

@@ -1,6 +1,7 @@
 <template>
-    <v-container class="home my-10">
-        <v-row justify="center">
+<v-main>
+    <v-container class="mb-10">
+        <v-row class="justify-center">
           <v-col cols="11" md="4" lg="3">
             <div class="px-xl-15">
                 <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" dark elevation="15" class="rounded-lg picker" height="auto" width="100%"></v-date-picker>
@@ -23,6 +24,7 @@
             </v-col>
         </v-row>
     </v-container>
+  </v-main>
 </template>
 
 <script>
