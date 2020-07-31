@@ -1,10 +1,11 @@
 <template>
     <v-main height="100vh">
-        <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" height="100vh" position="fixed"></v-img>
-        <v-img v-else src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh"></v-img>
+        <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" height="100vh" class="apod__login"></v-img>
+        <v-img v-if="apods.media_type === 'video'" src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh" class="apod__login"></v-img>
         <div class="login">
+          <div class="login__content">
             <v-img src="/img/NASA_logo.svg" transition="scale-transition" class="login__logo"></v-img>
-            <v-card class="mx-auto my-auto login__card">
+            <v-card class="mx-auto login__card">
                 <v-card-text>
                     <v-form>
                         <v-text-field label="Email" prepend-icon="mdi-email" v-model="user"/>
@@ -21,6 +22,7 @@
                     <v-btn block color="info" @click="login" class="login__btn">Login</v-btn>
                 </v-card-actions>
             </v-card>
+          </div>
         </div>
     </v-main>
 </template>
@@ -63,14 +65,18 @@ export default {
 </script>
 
 <style lang="scss">
+.apod__login{
+  position: fixed;
+}
 .login{
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  height: 80%;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  &__content{
+    margin: 20px 0;
+  }
   &__logo{
     margin: 0 auto;
     width: 250px;
