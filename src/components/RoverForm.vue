@@ -100,7 +100,6 @@ import { mapState, mapActions } from 'vuex'
       },
       selectValue(value){
           this.getdateglobal(value)
-          console.log(this.manifest)
       },
       dateEarthRover(dateEarth){
         this.$refs.menu.save(dateEarth)
