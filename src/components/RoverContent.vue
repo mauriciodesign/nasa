@@ -17,9 +17,15 @@
                 md="6">
                 <v-card class="card mx-auto" dark>
                     <v-img
-                      class="white--text align-end"
-                      :src="rover.img_src"
-                      :lazy-src="rover.img_src">
+                      :src="rover.img_src">
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center">
+                          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                        </v-row>
+                      </template>
                     </v-img>
 
                     <v-card-title class="px-7">

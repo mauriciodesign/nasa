@@ -15,6 +15,7 @@ export default new Vuex.Store({
     apods: [],
     rovers: [],
     manifest:[],
+    overlay: false,
     currentUser: null,
   },
   mutations: {
@@ -25,9 +26,12 @@ export default new Vuex.Store({
     GET_ROVER(state, rovers) { state.rovers = rovers },
     GET_ROVER_LATEST(state, rovers) { state.rovers = rovers },
     GET_DATE_GLOBAL(state, manifest) { state.manifest = manifest },
+    DISPLAY_OVERLAY(state) { state.overlay = true },
+    HIDE_OVERLAY(state) { state.overlay = false },
   },
   actions: {
     getApod({ commit }, date) {
+      commit('DISPLAY_OVERLAY')
       let queryDate =  new Date(new Date().getTime() - 1000 * 60 * 60 * 24).toISOString().substr(0, 10);
 
       axios.get(`${apodUrl}date=${date}&api_key=${apiKey}`)
@@ -39,6 +43,9 @@ export default new Vuex.Store({
             .then(response => {
               commit('GET_APOD', response.data)
             })
+        })
+        .finally(() => {
+            commit('HIDE_OVERLAY')
         })
     },
 
@@ -52,10 +59,14 @@ export default new Vuex.Store({
     },
 
     getRover({ commit }, { selectRoverValue, dateEarth, dateSol, dateTypeValue }) {
+      commit('DISPLAY_OVERLAY')
       if (dateTypeValue == 'Earth Date') {
         axios.get(`${roverUrl}${selectRoverValue}/photos?earth_date=${dateEarth}&api_key=${apiKey}`)
           .then(response => {
             commit('GET_ROVER', response.data.photos)
+          })
+          .finally(() => {
+              commit('HIDE_OVERLAY')
           })
       }
       if (dateTypeValue == 'Sol Date') {
@@ -63,13 +74,20 @@ export default new Vuex.Store({
           .then(response => {
             commit('GET_ROVER', response.data.photos)
           })
+          .finally(() => {
+              commit('HIDE_OVERLAY')
+          })
       }
     },
 
     getRoverlatest({ commit }) {
+      commit('DISPLAY_OVERLAY')
       axios.get(`${roverlatestUrl}?&api_key=${apiKey}`)
         .then(response => {
           commit('GET_ROVER_LATEST', response.data.latest_photos)
+        })
+        .finally(() => {
+            commit('HIDE_OVERLAY')
         })
     },
 

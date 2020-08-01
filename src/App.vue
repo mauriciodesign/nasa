@@ -1,6 +1,9 @@
 <template>
   <v-app>
     <v-content>
+      <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
       <NavBar/>
       <transition name='fade'>
         <router-view/>
@@ -10,28 +13,29 @@
 </template>
 
 <script>
-import NavBar from './components/NavBar';
-
+import NavBar from "./components/NavBar";
+import { mapState } from "vuex";
 export default {
-  name: 'App',
-
+  name: "App",
   components: {
     NavBar,
   },
-
-  data: () => ({
-    //
-  }),
+  computed: {
+    ...mapState(["overlay"]),
+  },
 };
 </script>
+
 <style lang="scss">
-.fade-enter-active, .fade-leave-active {
-  transition: .3s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.3s;
 }
 .fade-enter-active {
-  transition-delay: .3s;
+  transition-delay: 0.3s;
 }
-.fade-enter, .fade-leave-active {
-  opacity: 0
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>

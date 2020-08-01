@@ -11,7 +11,19 @@
                 <h1>{{apods.title}}</h1>
                 <p>{{apods.date}}</p>
                 <v-card class="rounded-lg" elevation="15" dark>
-                    <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" width="100%"></v-img>
+                    <v-img v-if="apods.media_type === 'image'"
+                    :src="apods.hdurl"
+                    :lazy-src="apods.url"
+                    width="100%">
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center">
+                          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
                     <iframe v-if="apods.media_type === 'video'" width="100%" height="500" :src="apods.url"></iframe>
                     <v-card-text class="px-10 py-10">
                         <div>{{apods.explanation}}</div>
@@ -33,29 +45,29 @@
 import { mapState, mapActions } from "vuex";
 export default {
   name: "Apod",
-      data () {
-      return {
-        date: new Date().toISOString().substr(0, 10),
-      }
-    },
+  data() {
+    return {
+      date: new Date().toISOString().substr(0, 10),
+    };
+  },
   computed: {
-    ...mapState(['apods']),
+    ...mapState(["apods"]),
   },
   methods: {
-    ...mapActions(["getApod", 'updateUser']),
-        getDate(date){
-          this.getApod(date)
-        }
+    ...mapActions(["getApod", "updateUser"]),
+    getDate(date) {
+      this.getApod(date);
+    },
   },
   created() {
     this.getApod(this.date);
-    this.updateUser(true)
-  }
+    this.updateUser(true);
+  },
 };
 </script>
 
 <style lang="scss">
-  .picker{
-    width: 100%;
-  }
+.picker {
+  width: 100%;
+}
 </style>
