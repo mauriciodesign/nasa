@@ -8,6 +8,7 @@
             </div>
           </v-row>
           <h3 class="camera__photos"><v-icon class="pr-2">mdi-camera</v-icon> Total Photos: {{rovers.length}}</h3>
+          <p v-if="lastPhotoRover">Latest photos sent from the curosity</p>
         </div>
         <v-row>
             <v-col
@@ -46,7 +47,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "RoverContent",
   computed: {
-    ...mapState(["rovers"]),
+    ...mapState(["rovers", "lastPhotoRover"]),
     ...mapGetters(["cameras"]),
 
     camerasCount() {

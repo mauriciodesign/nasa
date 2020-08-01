@@ -1,5 +1,5 @@
 <template>
-    <v-main height="100vh">
+    <v-main class="login__main" height="100vh">
         <v-snackbar elevation="3" top color="error darken-1" v-model="alert" timeout="3000">
             <div class="alert">
                 <v-icon class='mr-8'>mdi-alert</v-icon>
@@ -7,7 +7,7 @@
             </div>
         </v-snackbar>
         <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" height="100vh" width="100%" class="login__apod"></v-img>
-        <v-img v-if="apods.media_type === 'video'" src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh" class="login__apod"></v-img>
+        <v-img v-if="apods.media_type === 'video'" src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh" width="100%" class="login__apod"></v-img>
         <div class="login">
           <div class="login__content">
             <v-img src="/img/NASA_logo.svg" transition="scale-transition" class="login__logo"></v-img>
@@ -81,6 +81,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  &__main {
+    background: #000;
+  }
   &__apod {
     position: fixed;
   }
