@@ -8,11 +8,13 @@ const apiKey = 'RnuWmkUgVsu5BvZixeZBH8xjqAdjhQezfA1kZYRg'
 const apodUrl = 'https://api.nasa.gov/planetary/apod?'
 const roverUrl = 'https://api.nasa.gov/mars-photos/api/v1/rovers/'
 const roverlatestUrl = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos'
+const manifests = 'https://api.nasa.gov/mars-photos/api/v1/manifests/'
 
 export default new Vuex.Store({
   state: {
     apods: [],
     rovers: [],
+    manifest:[],
     currentUser: null,
   },
   mutations: {
@@ -22,6 +24,7 @@ export default new Vuex.Store({
     GET_APOD(state, apods) { state.apods = apods },
     GET_ROVER(state, rovers) { state.rovers = rovers },
     GET_ROVER_LATEST(state, rovers) { state.rovers = rovers },
+    GET_DATE_GLOBAL(state, manifest) { state.manifest = manifest },
   },
   actions: {
     getApod({ commit }, date) {
@@ -68,7 +71,14 @@ export default new Vuex.Store({
         .then(response => {
           commit('GET_ROVER_LATEST', response.data.latest_photos)
         })
-    }
+    },
+
+    getdateglobal({ commit }, value ) {
+        axios.get(`${manifests}${value}?&api_key=${apiKey}`)
+        .then(response => {
+            commit('GET_DATE_GLOBAL', response.data.photo_manifest)
+        })
+    },
   },
   getters: {
     cameras(state) {
@@ -80,11 +90,3 @@ export default new Vuex.Store({
   modules: {
   }
 })
-// https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY
-// https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&camera=fhaz&api_key=DEMO_KEY
-// https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=DEMO_KEY
-// https://api.nasa.gov/planetary/apod?
-
-//https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos&api_key=RnuWmkUgVsu5BvZixeZBH8xjqAdjhQezfA1kZYRg
-
-// https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=RnuWmkUgVsu5BvZixeZBH8xjqAdjhQezfA1kZYRg
