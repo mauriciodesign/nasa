@@ -1,10 +1,10 @@
 <template>
     <v-main class="login__main" height="100vh">
-        <v-snackbar elevation="3" top color="error darken-1" v-model="alert" timeout="3000">
-            <div class="alert">
-                <v-icon class='mr-8'>mdi-alert</v-icon>
-                <span>The data is not correct</span>
-            </div>
+        <v-snackbar elevation="13" top color="error darken-1" v-model="alert" timeout="3000">
+            <v-row class="alert">
+                <v-icon class="alert__icon">mdi-alert</v-icon>
+                <v-col class="grow">The data is not correct, please try again</v-col>
+            </v-row>
         </v-snackbar>
         <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" height="100vh" width="100%" class="login__apod"></v-img>
         <v-img v-if="apods.media_type === 'video'" src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh" width="100%" class="login__apod"></v-img>
@@ -72,8 +72,18 @@ export default {
 </script>
 
 <style lang="scss">
+.v-snack__wrapper {
+  min-width: auto !important;
+  border-radius: 0.6rem !important;
+}
 .alert {
-  text-align: center;
+  align-items: center;
+  padding: 0 0.8rem;
+  &__icon {
+    background: rgba(255, 255, 255, 0.219);
+    border-radius: 50%;
+    padding: 15px;
+  }
 }
 .login {
   width: 100%;

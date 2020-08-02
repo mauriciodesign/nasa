@@ -17,20 +17,21 @@ export default new Vuex.Store({
         manifest: [],
         overlay: false,
         lastPhotoRover: true,
+        emptyPhotoAlert: false,
         currentUser: null,
     },
     mutations: {
-        UPDATE_USER(state, user) {
-            state.currentUser = user
-        },
+        UPDATE_USER(state, user) { state.currentUser = user },
         GET_APOD(state, apods) { state.apods = apods },
         GET_ROVER(state, rovers) { state.rovers = rovers },
         GET_ROVER_LATEST(state, rovers) { state.rovers = rovers },
         GET_DATE_GLOBAL(state, manifest) { state.manifest = manifest },
         DISPLAY_OVERLAY(state) { state.overlay = true },
         HIDE_OVERLAY(state) { state.overlay = false },
-        DISPLAY_LAST_PHOTO(state) { state.last = true },
+        DISPLAY_LAST_PHOTO(state) { state.lastPhotoRover = true },
         HIDE_LAST_PHOTO(state) { state.lastPhotoRover = false },
+        ALERT_MESAJE(state) { state.emptyPhotoAlert = true },
+        HIDE_ALERT_MESAJE(state) { state.emptyPhotoAlert = false },
     },
     actions: {
         getApod({ commit }, date) {
@@ -61,13 +62,14 @@ export default new Vuex.Store({
             })
         },
 
-        getRover({ commit }, { selectRoverValue, dateEarth, dateSol, dateTypeValue }) {
+        getRover({ commit, state }, { selectRoverValue, dateEarth, dateSol, dateTypeValue }) {
             commit('DISPLAY_OVERLAY')
             if (dateTypeValue == 'Earth Date') {
                 axios.get(`${roverUrl}${selectRoverValue}/photos?earth_date=${dateEarth}&api_key=${apiKey}`)
                     .then(response => {
                         commit('GET_ROVER', response.data.photos)
                         commit('HIDE_LAST_PHOTO')
+                        state.rovers.length === 0 ? commit('ALERT_MESAJE') : commit('HIDE_ALERT_MESAJE')
                     })
                     .finally(() => {
                         commit('HIDE_OVERLAY')
@@ -78,6 +80,7 @@ export default new Vuex.Store({
                     .then(response => {
                         commit('GET_ROVER', response.data.photos)
                         commit('HIDE_LAST_PHOTO')
+                        state.rovers.length === 0 ? commit('ALERT_MESAJE') : commit('HIDE_ALERT_MESAJE')
                     })
                     .finally(() => {
                         commit('HIDE_OVERLAY')
@@ -87,6 +90,7 @@ export default new Vuex.Store({
 
         getRoverlatest({ commit }) {
             commit('DISPLAY_OVERLAY')
+            commit('HIDE_ALERT_MESAJE')
             axios.get(`${roverlatestUrl}?&api_key=${apiKey}`)
                 .then(response => {
                     commit('GET_ROVER_LATEST', response.data.latest_photos)

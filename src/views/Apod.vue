@@ -4,13 +4,13 @@
         <v-row class="justify-center">
           <v-col cols="11" md="4" lg="3">
             <div class="px-xl-15">
-                <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" dark elevation="15" class="rounded-lg picker" height="auto" width="100%"></v-date-picker>
+                <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" dark elevation="15" class="picker" height="auto" width="100%"></v-date-picker>
             </div>
             </v-col>
             <v-col class="mx-0" cols="11" md="8" lg="9">
                 <h1>{{apods.title}}</h1>
                 <p>{{apods.date}}</p>
-                <v-card class="rounded-lg" elevation="15" dark>
+                <v-card class="apod__card" elevation="15" dark>
                     <v-img v-if="apods.media_type === 'image'"
                     :src="apods.hdurl"
                     :lazy-src="apods.url"
@@ -40,8 +40,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
 import { mapState, mapActions } from "vuex";
 export default {
   name: "Apod",
@@ -69,5 +67,12 @@ export default {
 <style lang="scss">
 .picker {
   width: 100%;
+  border-radius: 15px !important;
+}
+iframe {
+  border: 0;
+}
+.apod__card {
+  border-radius: 20px !important;
 }
 </style>
