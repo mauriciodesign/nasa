@@ -54,8 +54,8 @@ import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "RoverContent",
   computed: {
-    ...mapState(["rovers", "lastPhotoRover", "emptyPhotoAlert"]),
-    ...mapGetters(["cameras"]),
+    ...mapState('rover',["rovers", "lastPhotoRover", "emptyPhotoAlert"]),
+    ...mapGetters('rover',["cameras"]),
 
     camerasCount() {
       let summary = {};
@@ -66,7 +66,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getRoverlatest"]),
+    ...mapActions('rover',["getRoverlatest"]),
   },
   created() {
     this.getRoverlatest();

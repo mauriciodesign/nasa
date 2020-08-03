@@ -6,29 +6,29 @@
                 <v-col class="grow">The data is not correct, please try again</v-col>
             </v-row>
         </v-snackbar>
-        <v-img v-if="apods.media_type === 'image'" :src="apods.hdurl" height="100vh" width="100%" class="login__apod"></v-img>
+        <v-img v-if="apods.media_type === 'image'" :src="apods.url" height="100vh" width="100%" class="login__apod"></v-img>
         <v-img v-if="apods.media_type === 'video'" src="https://apod.nasa.gov/apod/image/2007/Butterfly_HubbleSchmidt_4767.jpg" height="100vh" width="100%" class="login__apod"></v-img>
         <div class="login">
-          <div class="login__content">
-            <v-img src="/img/NASA_logo.svg" transition="scale-transition" class="login__logo"></v-img>
-            <v-card class="mx-auto login__card">
-                <v-card-text>
-                    <v-form>
-                        <v-text-field label="Email" prepend-icon="mdi-email" v-model="user"/>
-                        <v-text-field
-                          label="Password"
-                          :type="showPassword ? 'text' : 'password'"
-                          prepend-icon="mdi-lock"
-                          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                          @click:append="showPassword = !showPassword"
-                          v-model="password"/>
-                    </v-form>
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn block color="info" @click="login" class="login__btn">Login</v-btn>
-                </v-card-actions>
-            </v-card>
-          </div>
+            <div class="login__content">
+                <v-img src="/img/NASA_logo.svg" transition="scale-transition" class="login__logo"></v-img>
+                <v-card class="mx-auto login__card">
+                    <v-card-text>
+                        <v-form>
+                            <v-text-field label="Email" prepend-icon="mdi-email" v-model="user"/>
+                            <v-text-field
+                            label="Password"
+                            :type="showPassword ? 'text' : 'password'"
+                            prepend-icon="mdi-lock"
+                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            @click:append="showPassword = !showPassword"
+                            v-model="password"/>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn block color="info" @click="login" class="login__btn">Login</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </div>
         </div>
     </v-main>
 </template>
@@ -48,10 +48,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apods"]),
+    ...mapState('apod',["apods"]),
   },
   methods: {
-    ...mapActions(["updateUser", "getApod"]),
+    ...mapActions('apod',["getApod"]),
+    ...mapActions(["updateUser"]),
+
     login() {
       Firebase.auth()
         .signInWithEmailAndPassword(this.user, this.password)

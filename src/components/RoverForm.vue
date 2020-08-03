@@ -87,10 +87,10 @@ import { mapState, mapActions } from 'vuex'
       ],
     }),
     computed: {
-      ...mapState(['manifest']),
+      ...mapState('rover',['manifest']),
     },
     methods: {
-      ...mapActions(['getRover', 'getdateglobal']),
+      ...mapActions('rover',['getRover', 'getdateglobal']),
 
       dateResult(){
         if (this.$refs.form.validate() !== false) {

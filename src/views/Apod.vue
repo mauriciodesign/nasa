@@ -1,5 +1,5 @@
 <template>
-<v-main>
+  <v-main>
     <v-container class="mb-10">
         <v-row class="justify-center">
           <v-col cols="11" md="4" lg="3">
@@ -49,10 +49,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apods"]),
+    ...mapState("apod", ["apods"]),
   },
   methods: {
-    ...mapActions(["getApod", "updateUser"]),
+    ...mapActions("apod", ["getApod"]),
+    ...mapActions(["updateUser"]),
+
     getDate(date) {
       this.getApod(date);
     },

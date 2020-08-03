@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-content>
+    <v-main>
       <v-overlay :value="overlay">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
@@ -8,7 +8,7 @@
       <transition name='fade'>
         <router-view/>
       </transition>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
