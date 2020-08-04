@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="menu">
     <v-app-bar app dark v-if="currentUser">
-      <v-btn class="d-flex align-center px-0" text color="transparent" to="/">
+      <v-btn class="d-flex align-center px-0" text color="transparent" to="/apod">
         <v-img
           alt="Nasa Logo"
-          class="shrink mr-2 logo-nasa"
+          class="shrink mr-2 menu__logo"
           contain
           src="/img/NASA_logo.svg"
           transition="scale-transition"/>
@@ -16,10 +16,10 @@
         <v-app-bar-nav-icon @click="displayMenu"></v-app-bar-nav-icon>
       </span>
 
-      <div class="menu-down">
+      <div class="menu__down">
         <v-btn class="mx-1" text v-for="menu in menu" :key='menu.title' :to='menu.link'>
           <span class="mr-3">{{menu.title}}</span>
-          <img :src='menu.icon' width="25" class="icon-menu">
+          <img :src='menu.icon' width="25">
         </v-btn>
         <v-btn class="mx-2" target="_blank" text @click="logout">
             <span class="mr-3">Logout</span>
@@ -80,25 +80,3 @@ import { mapState, mapActions } from 'vuex'
     },
   }
 </script>
-
-<style lang="scss">
-.logo-nasa{
-  width: 140px;
-  margin-top: 2rem;
-}
-.menu__responsive{
-  position: fixed;
-  z-index: 2;
-  margin-top: 50px ;
-}
-
-@media (max-width: 599px) {
-  .logo-nasa{
-    width: 85px;
-    margin-top: 0;
-  }
-  .menu-down{
-    display: none;
-  }
-}
-</style>

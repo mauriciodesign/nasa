@@ -1,15 +1,15 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-overlay :value="overlay">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
-      </v-overlay>
-      <NavBar/>
-      <transition name='fade'>
-        <router-view/>
-      </transition>
-    </v-main>
-  </v-app>
+    <v-app>
+        <v-main>
+            <v-overlay :value="overlay">
+                <v-progress-circular indeterminate size="64"></v-progress-circular>
+            </v-overlay>
+            <NavBar/>
+            <transition name='fade'>
+                <router-view/>
+            </transition>
+        </v-main>
+    </v-app>
 </template>
 
 <script>
@@ -26,16 +26,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: 0.3s;
-}
-.fade-enter-active {
-  transition-delay: 0.3s;
-}
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-</style>
+<style src="@/assets/scss/main.scss" lang="scss"></style>

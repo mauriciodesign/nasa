@@ -1,11 +1,11 @@
 <template>
-  <v-main>
+  <v-main class="apod">
     <v-container class="mb-10">
         <v-row class="justify-center">
-          <v-col cols="11" md="4" lg="3">
-            <div class="px-xl-15">
-                <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" dark elevation="15" class="picker" height="auto" width="100%"></v-date-picker>
-            </div>
+            <v-col cols="11" md="4" lg="3">
+                <div class="px-xl-15">
+                    <v-date-picker min="1995-06-20" :max="new Date().toISOString().substr(0, 10)" v-model="date" @input="getDate" dark elevation="15" class="apod__picker" height="auto" width="100%"></v-date-picker>
+                </div>
             </v-col>
             <v-col class="mx-0" cols="11" md="8" lg="9">
                 <h1>{{apods.title}}</h1>
@@ -15,20 +15,23 @@
                     :src="apods.hdurl"
                     :lazy-src="apods.url"
                     width="100%">
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center">
-                          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                        </v-row>
-                      </template>
+                        <template v-slot:placeholder>
+                            <v-row
+                                class="fill-height ma-0"
+                                align="center"
+                                justify="center">
+                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                            </v-row>
+                        </template>
                     </v-img>
                     <iframe v-if="apods.media_type === 'video'" width="100%" height="500" :src="apods.url"></iframe>
+
                     <v-card-text class="px-10 py-10">
                         <div>{{apods.explanation}}</div>
                     </v-card-text>
+
                     <v-divider class="mx-4"></v-divider>
+
                     <v-card-text v-if="apods.copyright" class="px-5 py-5 text-right">
                         Copyright © {{apods.copyright}}
                     </v-card-text>
@@ -66,15 +69,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.picker {
-  width: 100%;
-  border-radius: 15px !important;
-}
-iframe {
-  border: 0;
-}
-.apod__card {
-  border-radius: 20px !important;
-}
-</style>

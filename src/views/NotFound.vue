@@ -24,6 +24,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
+  name: "NotFound",
   methods: {
     ...mapActions(["updateUser"]),
   },
@@ -32,61 +33,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.notfound {
-  &__bg {
-    background: url("/img/mars.jpg") bottom;
-    background-size: cover;
-    width: 100%;
-    height: 100vh;
-    position: fixed;
-  }
-  &__logo {
-    height: auto !important;
-    width: 200px;
-    margin: 0 auto;
-  }
-  &__content {
-    color: cornsilk;
-    text-align: center;
-    z-index: 1;
-    position: relative;
-
-    h1 {
-      color: cornsilk;
-      font-size: 8rem;
-      margin-top: -70px;
-    }
-    h2 {
-      color: cornsilk;
-      font-size: 2rem;
-      margin-top: -40px;
-    }
-    h3 {
-      color: cornsilk;
-      font-size: 1.5rem;
-      margin: 10px 0 30px 0;
-    }
-  }
-}
-@media (min-width: 510px) {
-  .notfound {
-    &__logo {
-      width: 250px;
-    }
-    &__content {
-      h1 {
-        font-size: 15rem;
-      }
-      h2 {
-        font-size: 3rem;
-      }
-      h3 {
-        font-size: 2rem;
-        margin: 10px 0 30px 0;
-      }
-    }
-  }
-}
-</style>

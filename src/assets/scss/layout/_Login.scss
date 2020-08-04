@@ -1,0 +1,49 @@
+// Login
+
+.v-snack__wrapper {
+  min-width: auto !important;
+  border-radius: 0.6rem !important;
+}
+.login {
+  background: #000;
+  &__alert {
+    align-items: center;
+    padding: 0 0.8rem;
+    margin-top: 0 !important;
+    &-icon {
+      background: rgba(255, 255, 255, 0.219);
+      border-radius: 50%;
+      padding: 15px;
+    }
+  }
+  &__content {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__apod {
+    position: fixed;
+  }
+  &__logo {
+    margin: 0 auto;
+    width: 250px;
+    @include mq(sm) {
+      margin: 10px auto 40px auto;
+      width: 300px;
+    }
+  }
+  &__card {
+    padding: 20px;
+    border-radius: 18px !important;
+    background-color: #ffffffba !important;
+    width: 80%;
+    @include mq(sm) {
+      width: 380px;
+    }
+  }
+  &__btn {
+    border-radius: 15px;
+  }
+}

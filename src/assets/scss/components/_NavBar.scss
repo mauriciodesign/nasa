@@ -1,0 +1,23 @@
+// NavBar
+
+.menu {
+  &__logo {
+    width: 85px;
+    margin-top: 0;
+    @include mq(sm) {
+      width: 140px;
+      margin-top: 2rem;
+    }
+  }
+  &__responsive {
+    position: fixed;
+    z-index: 2;
+    margin-top: 50px;
+  }
+  &__down {
+    display: none;
+    @include mq(sm) {
+      display: block;
+    }
+  }
+}

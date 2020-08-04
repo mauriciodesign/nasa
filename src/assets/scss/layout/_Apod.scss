@@ -1,0 +1,13 @@
+// Apod
+
+iframe {
+  border: 0;
+}
+.apod {
+  &__picker {
+    border-radius: 15px !important;
+  }
+  &__card {
+    border-radius: 20px !important;
+  }
+}
