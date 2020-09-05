@@ -1,0 +1,41 @@
+// Modal
+
+.modal{
+    display: none !important;
+    &__pading{
+        padding: 0 !important;
+    }
+    &__title{
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem !important;
+        flex-wrap: nowrap;
+        @include mq(sm) {
+            padding: 1.5rem 2rem !important;
+        }
+        &-content{
+            display: flex;
+        }
+        &-camera{
+            display: flex;
+            align-items: flex-start;
+        }
+        h2{
+            display: none;
+            @include mq(sm) {
+                display: block;
+            }
+        }
+        h4{
+            word-break: break-word;
+        }
+    }
+}
+.v-dialog{
+    width: 100% !important;
+    margin: 10px;
+    @include mq(md) {
+        width: 65% !important;
+    }
+}
+

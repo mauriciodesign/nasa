@@ -23,7 +23,7 @@
                 class="px-8 py-8"
                 cols="12"
                 md="6">
-                <v-card class="rover__card mx-auto" dark>
+                <v-card class="rover__card mx-auto" dark @click="dialogs(rover)">
                     <v-img
                       :src="rover.img_src">
                       <template v-slot:placeholder>
@@ -46,15 +46,27 @@
                 </v-card>
             </v-col>
        </v-row>
+      <NasaModal v-if="dialog"
+      class="rover__modal"
+      :dialog="dialog"
+      :modal="roverModalData"
+      @close-dialog="dialog = false">
+      </NasaModal>
     </v-container>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
+import NasaModal from './NasaModal'
 export default {
   name: "RoverContent",
+  data () {
+    return {
+      dialog: false,
+    }
+  },
   computed: {
-    ...mapState('rover',["rovers", "lastPhotoRover", "emptyPhotoAlert"]),
+    ...mapState('rover',["roverModalData", "rovers", "lastPhotoRover", "emptyPhotoAlert"]),
     ...mapGetters('rover',["cameras"]),
 
     camerasCount() {
@@ -66,10 +78,19 @@ export default {
     },
   },
   methods: {
-    ...mapActions('rover',["getRoverlatest"]),
+    ...mapActions('rover',["getRoverlatest", "roverModal"]),
+    dialogs(roverModalData){
+        this.roverModal(roverModalData)
+        this.dialog = true;
+        console.log(roverModalData)
+    }
+  },
+  components: {
+    NasaModal
   },
   created() {
     this.getRoverlatest();
+    console.log(this.rovers)
   },
 };
 </script>

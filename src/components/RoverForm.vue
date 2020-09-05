@@ -47,7 +47,7 @@
                 </v-row>
             </v-col>
 
-            <div class="pt-4 ml-5">
+            <div class="pt-4 ml-md-5">
                 <v-btn color="info" large dark @click="dateResult"><v-icon>mdi-magnify</v-icon>Search</v-btn>
             </div>
         </v-row>

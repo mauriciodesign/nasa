@@ -12,6 +12,7 @@ export default {
         manifest: [],
         lastPhotoRover: true,
         emptyPhotoAlert: false,
+        roverModalData: {}
     },
     mutations: {
         GET_ROVER(state, rovers) { state.rovers = rovers },
@@ -21,6 +22,7 @@ export default {
         HIDE_LAST_PHOTO(state) { state.lastPhotoRover = false },
         ALERT_MESAJE(state) { state.emptyPhotoAlert = true },
         HIDE_ALERT_MESAJE(state) { state.emptyPhotoAlert = false },
+        ROVER_MODAL(state, roverModalData) { state.roverModalData = roverModalData}
     },
 
     actions: {
@@ -70,6 +72,10 @@ export default {
                     commit('GET_DATE_GLOBAL', response.data.photo_manifest)
                 })
         },
+        roverModal({ commit, state }, roverModalData){
+            commit('ROVER_MODAL', roverModalData)
+            console.log(state.roverModalData.img_src)
+        }
     },
     getters: {
         cameras(state) {
