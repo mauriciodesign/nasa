@@ -82,7 +82,6 @@ export default {
     dialogs(roverModalData){
         this.roverModal(roverModalData)
         this.dialog = true;
-        console.log(roverModalData)
     }
   },
   components: {
@@ -90,7 +89,6 @@ export default {
   },
   created() {
     this.getRoverlatest();
-    console.log(this.rovers)
   },
 };
 </script>

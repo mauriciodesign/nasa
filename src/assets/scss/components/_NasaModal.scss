@@ -38,4 +38,15 @@
         width: 65% !important;
     }
 }
-
+.v-picker__body{
+    width: 100% !important;
+    @include mq(sm) {
+        min-width: 290px !important;
+    }
+}
+.v-picker{
+    min-width: 100% !important;
+    @include mq(sm) {
+        width: 290px !important;
+    }
+}

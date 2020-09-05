@@ -72,9 +72,8 @@ export default {
                     commit('GET_DATE_GLOBAL', response.data.photo_manifest)
                 })
         },
-        roverModal({ commit, state }, roverModalData){
+        roverModal({ commit }, roverModalData){
             commit('ROVER_MODAL', roverModalData)
-            console.log(state.roverModalData.img_src)
         }
     },
     getters: {
